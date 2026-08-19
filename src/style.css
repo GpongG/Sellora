@@ -26,25 +26,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ---------------------------------------------------------------
+   布局策略：默认单列（手机/窄屏/任何视口都安全，绝不会挤压），
+   只有真正够宽的屏幕才通过 min-width 查询切换为双列。
+   即使浏览器忽略媒体查询或强制大视口，也始终是单列。
+---------------------------------------------------------------- */
 .page {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 32px 24px 64px;
-}
-
-/* 输入框/滑块撑满容器，避免窄屏下偏左堆积 */
-.field .n-input-number,
-.field .n-slider {
-  width: 100%;
-}
-
-.field .n-input-number .n-input {
-  width: 100%;
+  padding: 20px 14px 48px;
 }
 
 .page-header h1 {
   margin: 0 0 8px;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 700;
   letter-spacing: -0.5px;
 }
@@ -54,15 +49,16 @@ body {
 }
 
 .page-subtitle {
-  margin: 0 0 28px;
+  margin: 0 0 20px;
   color: var(--text-muted);
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.6;
 }
 
+/* 主布局：默认单列 */
 .layout {
   display: grid;
-  grid-template-columns: 1fr 1.1fr;
+  grid-template-columns: 1fr;
   gap: 20px;
   align-items: start;
 }
@@ -70,13 +66,6 @@ body {
 .layout-right {
   display: grid;
   gap: 20px;
-}
-
-/* 窄屏/手机（含安卓默认 980px 视口与“桌面模式”）：布局改为单列堆叠，避免双列挤压 */
-@media (max-width: 1000px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* 输入字段 */
@@ -98,10 +87,20 @@ body {
   font-size: 12px;
 }
 
-/* 结果统计卡片 */
+/* 输入框/滑块撑满容器，避免窄屏下偏左堆积 */
+.field .n-input-number,
+.field .n-slider {
+  width: 100%;
+}
+
+.field .n-input-number .n-input {
+  width: 100%;
+}
+
+/* 结果统计卡片：默认单列 */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 12px;
 }
 
@@ -109,18 +108,18 @@ body {
   background: #fafbfe;
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 16px;
+  padding: 14px 16px;
 }
 
 .stat-label {
   font-size: 12px;
   color: var(--text-muted);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   line-height: 1.4;
 }
 
 .stat-value {
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
@@ -133,7 +132,7 @@ body {
   color: var(--success);
 }
 
-/* 净利润反推面板 */
+/* 净利润反推面板：结果行默认上下堆叠 */
 .profit-result {
   display: grid;
   gap: 10px;
@@ -141,8 +140,9 @@ body {
 
 .profit-result .row {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
   padding-bottom: 10px;
   border-bottom: 1px dashed var(--border);
 }
@@ -164,7 +164,7 @@ body {
 }
 
 .row-value {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
@@ -176,38 +176,63 @@ body {
   line-height: 1.6;
 }
 
-/* ---------- 移动端适配 ---------- */
-@media (max-width: 720px) {
+.page-footer {
+  margin-top: 32px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* ---------------------------------------------------------------
+   桌面（≥720px）：放大留白与字号、统计卡/结果行双列
+---------------------------------------------------------------- */
+@media (min-width: 720px) {
   .page {
-    padding: 20px 14px 48px;
+    padding: 32px 24px 64px;
   }
 
   .page-header h1 {
-    font-size: 24px;
+    font-size: 30px;
   }
 
   .page-subtitle {
-    font-size: 14px;
-    margin-bottom: 20px;
+    font-size: 15px;
+    margin-bottom: 28px;
   }
 
-  /* 结果统计改为单列，避免长标签挤压 */
   .stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat {
+    padding: 16px;
+  }
+
+  .stat-label {
+    margin-bottom: 8px;
   }
 
   .stat-value {
-    font-size: 22px;
+    font-size: 26px;
   }
 
-  /* 净利润反推结果行改为上下堆叠 */
   .profit-result .row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0;
   }
 
   .row-value {
-    font-size: 16px;
+    font-size: 15px;
+  }
+}
+
+/* ---------------------------------------------------------------
+   真正宽屏（≥1080px）：主布局左右双列
+---------------------------------------------------------------- */
+@media (min-width: 1080px) {
+  .layout {
+    grid-template-columns: 1fr 1.1fr;
   }
 }

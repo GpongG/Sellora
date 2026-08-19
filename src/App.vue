@@ -8,6 +8,9 @@ import ProfitRoiPanel from './components/ProfitRoiPanel.vue'
 
 const calculator = useRoiCalculator()
 
+/** 构建版本标记：用于确认手机端加载的是否为最新构建 */
+const appVersion = 'v2.1.0'
+
 const themeOverrides: GlobalThemeOverrides = {
   common: {
     primaryColor: '#0e7a6a',
@@ -40,6 +43,7 @@ const themeOverrides: GlobalThemeOverrides = {
           <ProfitRoiPanel :calculator="calculator" />
         </div>
       </div>
+      <footer class="page-footer">Sellora 保本 ROI 计算器 · {{ appVersion }}</footer>
     </main>
   </n-config-provider>
 </template>
