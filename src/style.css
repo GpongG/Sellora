@@ -32,6 +32,16 @@ body {
   padding: 32px 24px 64px;
 }
 
+/* 输入框/滑块撑满容器，避免窄屏下偏左堆积 */
+.field .n-input-number,
+.field .n-slider {
+  width: 100%;
+}
+
+.field .n-input-number .n-input {
+  width: 100%;
+}
+
 .page-header h1 {
   margin: 0 0 8px;
   font-size: 30px;
@@ -123,18 +133,6 @@ body {
 }
 
 /* 净利润反推面板 */
-.profit-fields {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
-
-@media (max-width: 480px) {
-  .profit-fields {
-    grid-template-columns: 1fr;
-  }
-}
-
 .profit-result {
   display: grid;
   gap: 10px;
@@ -175,4 +173,40 @@ body {
   display: block;
   margin-top: 16px;
   line-height: 1.6;
+}
+
+/* ---------- 移动端适配 ---------- */
+@media (max-width: 640px) {
+  .page {
+    padding: 20px 14px 48px;
+  }
+
+  .page-header h1 {
+    font-size: 24px;
+  }
+
+  .page-subtitle {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  /* 结果统计改为单列，避免长标签挤压 */
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-value {
+    font-size: 22px;
+  }
+
+  /* 净利润反推结果行改为上下堆叠 */
+  .profit-result .row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .row-value {
+    font-size: 16px;
+  }
 }
