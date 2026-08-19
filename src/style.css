@@ -72,7 +72,8 @@ body {
   gap: 20px;
 }
 
-@media (max-width: 860px) {
+/* 窄屏/手机（含安卓默认 980px 视口与“桌面模式”）：布局改为单列堆叠，避免双列挤压 */
+@media (max-width: 1000px) {
   .layout {
     grid-template-columns: 1fr;
   }
@@ -176,7 +177,7 @@ body {
 }
 
 /* ---------- 移动端适配 ---------- */
-@media (max-width: 640px) {
+@media (max-width: 720px) {
   .page {
     padding: 20px 14px 48px;
   }
